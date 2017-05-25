@@ -1,2 +1,2 @@
-# INE5413
-INE5413 - Graphs
+# Graphs
+Simply the best python implementation of a graph.
