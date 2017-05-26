@@ -14,7 +14,7 @@ class Graph():
             Adds a new vertex on the graph. Initially, without any edge
             connected to it.
         """
-        self.__vertices[v] = []
+        self.__vertices[v] = set()
 
     def remove_vertex(self, v):
         """
@@ -29,11 +29,12 @@ class Graph():
 
     def add_edge(self, v1, v2, weight=0):
         """
-            Creates an edge between vertex v1 and vertex v2
+            Creates an edge between vertex v1 and vertex v2. Notice that
+            we can't add more than 1 edge between the same vertices.
         """
         if (v1 in self.__vertices and v2 in self.__vertices):
-            self.__vertices[v1].append(v2)
-            self.__vertices[v2].append(v1)
+            self.__vertices[v1].add(v2)
+            self.__vertices[v2].add(v1)
         else:
             raise NameError("At least one of the vertices doesn't exist")
 
