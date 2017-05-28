@@ -3,9 +3,13 @@ from random import choice
 
 class Graph():
     """
-        The graph itself. Contains the basic operations, as vertices and edges
-        insertion, vertices and edges removal, among others.
+        A directed graph (digraph). Contains the basic operations, as vertices
+        and edges insertion, vertices and edges removal, among others.
+
+        It maintains a dict (__vertices) that maps each vertex to the set of
+        its adjacent vertices.
     """
+
     def __init__(self):
         self.__vertices = {}
 
@@ -21,22 +25,21 @@ class Graph():
             Removes a vertex from the graph
         """
         if (v in self.__vertices):
-            vertex = self.__vertices.pop(v)
-            for edge in vertex:
-                self.remove_edge(v, edge)
+            for vertex in self.__vertices:
+                self.__vertices[vertex].discard(v)
+            del self.__vertices[v]
         else:
-            raise NameError("Vertex doesn't exists")
+            raise RuntimeError("Vertex doesn't exists")
 
-    def add_edge(self, v1, v2, weight=0):
+    def add_edge(self, v1, v2):
         """
             Creates an edge between vertex v1 and vertex v2. Notice that
             we can't add more than 1 edge between the same vertices.
         """
         if (v1 in self.__vertices and v2 in self.__vertices):
             self.__vertices[v1].add(v2)
-            self.__vertices[v2].add(v1)
         else:
-            raise NameError("At least one of the vertices doesn't exist")
+            raise RuntimeError("At least one of the vertices doesn't exist")
 
     def remove_edge(self, v1, v2):
         """
@@ -44,9 +47,8 @@ class Graph():
         """
         try:
             self.__vertices[v1].remove(v2)
-            self.__vertices[v2].remove(v1)
-        except:
-            raise NameError("The edge doesn't exist")
+        except KeyError:
+            raise RuntimeError("The edge doesn't exist")
 
     def order(self):
         """
@@ -58,7 +60,7 @@ class Graph():
         """
             Returns all the vertices of the graph
         """
-        return self.__vertices
+        return set(self.__vertices.keys())
 
     def single_vertex(self):
         """
@@ -72,8 +74,8 @@ class Graph():
         """
         try:
             return self.__vertices[v]
-        except:
-            raise NameError("The vertex doesn't exist")
+        except KeyError:
+            raise RuntimeError("The vertex doesn't exist")
 
     def degree(self, v):
         """
@@ -82,5 +84,5 @@ class Graph():
         """
         try:
             return len(self.__vertices[v])
-        except:
-            raise NameError("The vertex doesn't exist")
+        except KeyError:
+            raise RuntimeError("The vertex doesn't exist")
