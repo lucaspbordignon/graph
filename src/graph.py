@@ -1,6 +1,5 @@
 from random import choice
 
-
 class Graph():
     """
         A directed graph (digraph). Contains the basic operations, as vertices
@@ -86,3 +85,41 @@ class Graph():
             return len(self.__vertices[v])
         except KeyError:
             raise RuntimeError("The vertex doesn't exist")
+
+    def __source_vertices(self):
+        """
+            Returns all the source vertices of the graph, i.e. vertices that
+            have an indegree of zero.
+        """
+        not_sources = set()
+        for adjacents in self.__vertices.values():
+            # add to 'not_sources' all vertices that have incoming edges
+            not_sources.update(adjacents)
+        return self.vertices() - not_sources
+
+    def topological_order(self):
+        """
+            Returns a topological order of the graph.
+        """
+        try:
+            order = []
+            visited = set()
+            for v in self.__source_vertices():
+                self.__visit(v, order, visited)
+            # return a reverse of 'order'
+            return order[::-1]
+        except RecursionError:
+            raise RuntimeError("Graph is not a DAG")
+
+    def __visit(self, v, order, visited):
+        """
+            Visits a vertex while topologically ordering the graph. After
+            visiting all of the unvisited adjacents of 'v', adds 'v' to the end
+            of 'order'. After visiting all vertices, 'order' should hold an
+            inverse of a topological order.
+        """
+        for adj in self.__vertices[v]:
+            if adj not in visited:
+                self.__visit(adj, order, visited)
+        visited.add(v)
+        order.append(v)
