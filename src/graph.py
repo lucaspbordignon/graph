@@ -17,7 +17,8 @@ class Graph():
             Adds a new vertex on the graph. Initially, without any edge
             connected to it.
         """
-        self.__vertices[v] = set()
+        if v not in self.__vertices:
+            self.__vertices[v] = set()
 
     def remove_vertex(self, v):
         """
@@ -86,7 +87,7 @@ class Graph():
         except KeyError:
             raise RuntimeError("The vertex doesn't exist")
 
-    def __source_vertices(self):
+    def source_vertices(self):
         """
             Returns all the source vertices of the graph, i.e. vertices that
             have an indegree of zero.
@@ -104,7 +105,7 @@ class Graph():
         try:
             order = []
             visited = set()
-            for v in self.__source_vertices():
+            for v in self.source_vertices():
                 self.__visit(v, order, visited)
             # return a reverse of 'order'
             return order[::-1]
