@@ -16,7 +16,7 @@ for course in completed:
 while curriculum.order() > 0:
     # order possible courses (source vertices) by semester
     possible_courses = sorted(curriculum.source_vertices(),
-            key=lambda c: courses[c])
+                              key=lambda c: courses[c])
 
     total_hours = 0
     recommended_courses = []

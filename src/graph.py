@@ -1,5 +1,6 @@
 from random import choice
 
+
 class Graph():
     """
         A directed graph (digraph). Contains the basic operations, as vertices
@@ -24,7 +25,7 @@ class Graph():
         """
             Removes a vertex from the graph
         """
-        if (v in self.__vertices):
+        if v in self.__vertices:
             for vertex in self.__vertices:
                 self.__vertices[vertex].discard(v)
             del self.__vertices[v]
@@ -36,7 +37,7 @@ class Graph():
             Creates an edge between vertex v1 and vertex v2. Notice that
             we can't add more than 1 edge between the same vertices.
         """
-        if (v1 in self.__vertices and v2 in self.__vertices):
+        if v1 in self.__vertices and v2 in self.__vertices:
             self.__vertices[v1].add(v2)
         else:
             raise RuntimeError("At least one of the vertices doesn't exist")
@@ -66,7 +67,7 @@ class Graph():
         """
             Returns a random vertex of the graph
         """
-        return choice(list(self.__vertices.keys()))
+        return choice(self.__vertices.keys())
 
     def adjacent_vertices(self, v):
         """
@@ -115,8 +116,8 @@ class Graph():
     def __visit(self, v, order, visited):
         """
             Visits a vertex while topologically ordering the graph. After
-            visiting all of the unvisited adjacents of 'v', adds 'v' to the end
-            of 'order'. After visiting all vertices, 'order' should hold an
+            visiting all of the unvisited successors of 'v', adds 'v' to the
+            end of 'order'. After visiting all vertices, 'order' should hold an
             inverse of a topological order.
         """
         for adj in self.__vertices[v]:
