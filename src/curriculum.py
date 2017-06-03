@@ -29,7 +29,7 @@ class Curriculum():
             A = {(C1, C2) | C1 is a prerequisite of C2}
     """
     def __init__(self):
-        self.__curriculum = Graph()
+        self.__graph = Graph()
         self.__courses = {
             # 1st semester
             "eel5105": Course("eel5105", 5, 1, []),
@@ -60,7 +60,8 @@ class Curriculum():
             # 5th semester
             "ine5418": Course("ine5418", 4, 5, ["ine5412", "ine5414"]),
             "ine5419": Course("ine5419", 4, 5, ["ine5417"]),
-            "ine5420": Course("ine5420", 4, 5, ["ine5408", "mtm5245", "mtm7174"]),
+            "ine5420": Course("ine5420", 4, 5,
+                              ["ine5408", "mtm5245", "mtm7174"]),
             "ine5421": Course("ine5421", 4, 5, ["ine5415"]),
             "ine5422": Course("ine5422", 4, 5, ["ine5414"]),
             "ine5423": Course("ine5423", 4, 5, ["ine5408"]),
@@ -69,7 +70,8 @@ class Curriculum():
             "ine5425": Course("ine5425", 4, 6, ["ine5405"]),
             "ine5426": Course("ine5426", 4, 6, ["ine5421"]),
             "ine5427": Course("ine5427", 4, 6, ["ine5421"]),
-            "ine5430": Course("ine5430", 4, 6, ["ine5405", "ine5413", "ine5416"]),
+            "ine5430": Course("ine5430", 4, 6,
+                              ["ine5405", "ine5413", "ine5416"]),
             "ine5453": Course("ine5453", 1, 6, ["ine5417"]),
             # 7th semester
             "ine5428": Course("ine5428", 4, 7, ["ine5407"]),
@@ -80,7 +82,7 @@ class Curriculum():
             # 8th semester
             "ine5434": Course("ine5434", 9, 8, ["ine5433"])
         }
-        self.initialize_curriculum()
+        self.__initialize_graph()
 
     @property
     def courses(self):
@@ -88,21 +90,14 @@ class Curriculum():
 
     @property
     def graph(self):
-        return self.__curriculum
+        return self.__graph
 
-    def add_course(self, graph, course):
+    def __initialize_graph(self):
         """
-            Adds a Course to a given Graph, creating the edges from the course
-            prerequisites to the course itself.
-        """
-        graph.add_vertex(course.name)
-        for prereq in course.prereqs:
-            graph.add_vertex(prereq)
-            graph.add_edge(prereq, course.name)
-
-    def initialize_curriculum(self):
-        """
-            Adds all the subjects of the curriculum to the graph.
+            Adds all the courses of the curriculum to the graph.
         """
         for course in self.__courses.values():
-            self.add_course(self.__curriculum, course)
+            self.__graph.add_vertex(course.name)
+            for prereq in course.prereqs:
+                self.__graph.add_vertex(prereq)
+                self.__graph.add_edge(prereq, course.name)
