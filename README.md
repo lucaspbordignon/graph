@@ -5,4 +5,4 @@ The main idea of this project was to create a model to represent the courses off
 
 ![alt text][curriculum]
 
-[curriculum]: ''
+[curriculum]: https://github.com/Lucaspbordignon/graph/blob/master/media/tree.png?raw=true
