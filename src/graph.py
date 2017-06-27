@@ -1,4 +1,5 @@
 from random import choice
+from queue import Queue
 
 
 class Graph():
@@ -123,6 +124,22 @@ class Graph():
                 visited.append(adj)
                 visited = self.depth_first_search(adj, visited)
         return visited
+
+    def breadth_first_search(self, vertex, visited=[]):
+        """
+            Executes a breadth-first search on a single connected component of 
+            the graph. Returns a list with the vertices in order of visit.
+        """
+        to_visit = Queue()
+        to_visit.put(vertex)
+        while not to_visit.empty():
+            vertex = to_visit.get() 
+            for adj in list(self.__vertices[vertex]):
+                if adj not in visited:
+                    visited.append(adj)
+                    to_visit.put(adj)
+        return visited
+
 
     def __visit(self, v, order, visited):
         """
